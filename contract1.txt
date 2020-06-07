@@ -1,0 +1,24 @@
+pragma solidity ^0.4.21;
+
+contract my_first_token {
+    address public minter;
+    mapping (address => uint) public balances;
+    event Sent(address from, address to, uint amount);
+    
+    function your_token() public {
+        minter = msg.sender;
+    } 
+    
+    function mint(address reciever, uint amount) public {
+        if(msg.sender != minter) return;
+        balances[reciever] += amount;
+    }
+    
+    function send(address reciever, uint amount) public {
+        if(balances[reciever]<amount) return;
+        balances[msg.sender] -= amount;
+        balances[reciever] += amount;
+        emit Sent(msg.sender, reciever, amount);
+        
+    }
+}
